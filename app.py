@@ -2,54 +2,74 @@ from flask import Flask, request, render_template, url_for
 import os
 from dotenv import load_dotenv
 import requests
-import logging
 
 # Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
 
-# Get the API keys from environment variables
+# Get the API key from environment variables
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
-huggingface_api_key = os.getenv('HUGGINGFACE_API_KEY')
 
 def generate_explanation(topic, domain, level):
-    logging.debug(f"Generating explanation for topic: {topic}, domain: {domain}, level: {level}")
     if level == "5 year old":
-        prompt = f"""Topic: {topic} in {domain}
-
-I am a 5 year old and have limited vocabulary and limited understanding of the world.
-
-Explain me the above topic in simple words using analogy and anecdotes"""
+        prompt = f"Explain {topic} in {domain} to me like I am a 5 year old."
+        payload = {
+            "model": "llama-3-sonar-small-32k-chat",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Be precise and concise."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        }
     elif level == "undergrad student":
-        prompt = f"""Topic: {topic} in {domain}
-
-I am an undergrad student and have surface level knowledge of the topic.
-Explain me what the topic does in simple language.
-Tell me its 2 use cases.
-Tell me its 2 advantages and 2 disadvantages if they exist."""
+        prompt = f"Explain {topic} in {domain} to me like I am an undergrad student. Provide a simple explanation, 2 use cases, and 2 advantages and disadvantages if they exist."
+        payload = {
+            "model": "llama-3-sonar-small-32k-chat",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Be precise and concise."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        }
     elif level == "Subject Matter Expert":
-        prompt = f"""Topic: {topic} and its architecture in {domain}
+        prompt = f"Explain {topic} and its architecture in {domain} to me like I am a subject matter expert. Provide a detailed technical explanation with step-by-step procedure in 8 steps."
+        payload = {
+            "model": "llama-3-sonar-small-32k-chat",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Be precise and concise."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        }
 
-I am a subject Matter expert in the topic
-Explain me the above topic using relevant technical terms.
-Explain the step by step procedure/workflow/process of the topic in 8 steps"""
-
-    logging.debug(f"Prompt: {prompt}")
-
-    # Call Perplexity API
     try:
         response = requests.post(
-            "https://api.perplexity.ai/v1/generate",
+            "https://api.perplexity.ai/chat/completions",
             headers={"Authorization": f"Bearer {perplexity_api_key}"},
-            json={"prompt": prompt, "model": "llama-3-sonar-large-32k-chat"}
+            json=payload,
+            stream=True
+
         )
         response.raise_for_status()
-        logging.debug(f"API Response: {response.json()}")
-        return response.json().get("text", "")
+        return response.json().get("choices")[0].get("message").get("content")
     except requests.exceptions.RequestException as e:
-        logging.error(f"API request failed: {e}")
-        return "An error occurred while generating the explanation."
+        return f"An error occurred: {e}"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -58,7 +78,6 @@ def index():
         topic = request.form['topic']
         domain = request.form['domain']
         level = request.form['level']
-        logging.debug(f"Form data - Topic: {topic}, Domain: {domain}, Level: {level}")
         explanation = generate_explanation(topic, domain, level)
     return render_template('index.html', explanation=explanation)
 
