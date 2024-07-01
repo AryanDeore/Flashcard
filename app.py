@@ -2,7 +2,8 @@ from flask import Flask, request, render_template, url_for
 import os
 from dotenv import load_dotenv
 import requests
-from prompts import get_prompt
+import markdown  # Import the markdown library
+from prompts import get_prompt  # Import the get_prompt function
 
 # Load environment variables from .env file
 load_dotenv()
@@ -33,8 +34,6 @@ def generate_explanation(topic, domain, level):
             "https://api.perplexity.ai/chat/completions",
             headers={"Authorization": f"Bearer {perplexity_api_key}"},
             json=payload
-            # ,stream=True
-
         )
         response.raise_for_status()
         return response.json().get("choices")[0].get("message").get("content")
@@ -45,10 +44,18 @@ def generate_explanation(topic, domain, level):
 def index():
     explanation = ""
     if request.method == 'POST':
-        topic = request.form['topic']
-        domain = request.form['domain']
-        level = request.form['level']
-        explanation = generate_explanation(topic, domain, level)
+        try:
+            topic = request.form['topic']
+            domain = request.form['domain']
+            level = request.form['level']
+            explanation_markdown = generate_explanation(topic, domain, level)
+            explanation = markdown.markdown(explanation_markdown)  # Convert markdown to HTML
+        except KeyError as e:
+            app.logger.error(f"Missing form field: {e}")
+            return f"Missing form field: {e}", 400
+        except Exception as e:
+            app.logger.error(f"Error: {e}")
+            return f"An error occurred: {e}", 500
     return render_template('index.html', explanation=explanation)
 
 if __name__ == '__main__':

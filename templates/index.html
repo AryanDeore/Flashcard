@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <h1 class="text-center mb-4">Explain</h1>
-        <form method="POST">
+        <form id="explain-form" method="POST">
             <div class="row search-container">
                 <div class="col-md-6 mb-3">
                     <div class="search-box">
@@ -40,13 +40,9 @@
             </div>
         </form>
         {% if explanation %}
-        <div class="explanation">
-            <h2 class="mt-4">Explanation:</h2>
-            <p>{{ explanation }}</p>
-        </div>
+        <div id="explanation-output" class="explanation mt-4">{{ explanation|safe }}</div>
         {% endif %}
     </div>
-
 </body>
 
 </html>
