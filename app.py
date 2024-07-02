@@ -38,6 +38,7 @@ def generate_explanation(topic, domain, level):
         response.raise_for_status()
         return response.json().get("choices")[0].get("message").get("content")
     except requests.exceptions.RequestException as e:
+        app.logger.error(f"RequestException: {e}")
         return f"An error occurred: {e}"
 
 @app.route('/', methods=['GET', 'POST'])

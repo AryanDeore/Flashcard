@@ -4,31 +4,61 @@ body {
     padding-top: 50px;
 }
 
-.search-container {
-    margin-bottom: 20px;
+h3,
+h4 {
+    margin: 0;
+    padding: 0;
 }
 
-.search-box {
-    position: relative;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.search-box input {
-    padding-right: 30px;
+form .d-flex {
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+form input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    margin: 0 10px;
 }
 
-.btn-custom {
+form span {
+    margin: 0 10px;
+}
+
+button {
+    padding: 10px 20px;
     border-radius: 25px;
     margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 .explanation {
-    margin-top: 30px;
     text-align: left;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.explanation h2,
+.explanation h3 {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.explanation p {
+    margin-bottom: 10px;
 }

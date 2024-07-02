@@ -14,35 +14,28 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="text-center mb-4">Explain</h1>
-        <form id="explain-form" method="POST">
-            <div class="row search-container">
-                <div class="col-md-6 mb-3">
-                    <div class="search-box">
-                        <input type="text" class="form-control" name="topic" placeholder="Photosynthesis" required>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="search-box">
-                        <input type="text" class="form-control" name="domain" placeholder="biology" required>
-                    </div>
-                </div>
+    <div class="container text-center mt-5">
+        <form id="explain-form" method="POST" class="mb-4">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <h4><span class="mx-2">Explain</span></h4>
+                <input type="text" class="form-control mx-2" name="topic" placeholder="Linear Regression" required>
+                <h4><span class="mx-2">from</span></h4>
+                <input type="text" class="form-control mx-2" name="domain" placeholder="Machine Learning" required>
             </div>
-            <p class="text-center">Like I am a</p>
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-custom" name="level" value="5 year old">5 year
-                    old</button>
-                <button type="submit" class="btn btn-primary btn-custom" name="level"
-                    value="undergrad student">Undergrad student</button>
-                <button type="submit" class="btn btn-primary btn-custom" name="level"
-                    value="Subject Matter Expert">Subject Matter Expert</button>
+                <button type="submit" form="explain-form" class="btn btn-primary mx-2" name="level" value="5 year old">5
+                    year old</button>
+                <button type="submit" form="explain-form" class="btn btn-primary mx-2" name="level"
+                    value="undergrad student">Undergrad</button>
+                <button type="submit" form="explain-form" class="btn btn-primary mx-2" name="level"
+                    value="Subject Matter Expert">Expert</button>
             </div>
         </form>
         {% if explanation %}
         <div id="explanation-output" class="explanation mt-4">{{ explanation|safe }}</div>
         {% endif %}
     </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
