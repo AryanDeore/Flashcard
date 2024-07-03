@@ -60,33 +60,100 @@ form {
 }
 
 form input[type="text"] {
-
     width: 10%;
     height: 36px;
     border-radius: 4px;
     padding-left: 12px;
-
     font-size: 14px;
     font-weight: normal;
-    /* border: 1px solid rgb(137, 151, 155); */
-    /* transition: border-color 150ms ease-in-out 0s; */
     outline: none;
     color: rgb(33, 49, 60);
     background-color: rgb(255, 255, 255);
     padding-right: 12px;
-
-    /* :hover {
-        box-shadow: rgb(33 238 236) 5px 5px 5px 4px;
-    } */
-
-
-
 }
 
 form span {
     margin: 0 10px;
+    display: flex;
+    align-items: center;
+    /* Center align text vertically */
 }
 
 button {
-    margin: 0 10px;
+    margin: 0 0px;
+    border-radius: 50px;
+    /* Rounded edges */
+    padding: 10px 20px;
+    /* Padding for pill-like shape */
+    background: linear-gradient(to right, #eae1d7, #eae1d7);
+    /* Muted gradient background */
+    border: none;
+    /* Remove border */
+    color: white;
+    /* Text color */
+    font-size: 16px;
+    /* Font size */
+    transition: background 0.3s ease;
+    /* Smooth transition */
+}
+
+button:hover {
+    /* background: linear-gradient(to right, #F0EAE5, #F0EAE5); */
+    transform: scale(1.1);
+    /* Reverse gradient on hover */
+}
+
+button:focus {
+    outline: none;
+    /* Remove focus outline */
+    /* box-shadow: 0 0 0 0px rgba(38, 143, 255, 0.5); */
+    /* Custom focus outline */
+}
+
+/* Center text vertically next to buttons */
+.d-flex span {
+    display: flex;
+    align-items: center;
+}
+
+/* Style improvements */
+.container {
+    margin-top: 50px;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="text"] {
+    width: 100%;
+    /* Full width for inputs */
+    margin-bottom: 15px;
+    /* Space between inputs */
+    border: 1px solid #ccc;
+    /* Light gray border */
+    transition: border-color 0.3s ease;
+    /* Smooth transition */
+}
+
+form input[type="text"]:focus {
+    border-color: #007bff;
+    /* Border color on focus */
+}
+
+.explanation {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.explanation h2,
+.explanation h3 {
+    color: #333;
+    /* Dark text color */
+}
+
+.explanation p {
+    line-height: 1.6;
+    /* Better readability */
 }
