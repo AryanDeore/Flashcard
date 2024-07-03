@@ -74,8 +74,8 @@ form input[type="text"] {
 
 form span {
     margin: 0 10px;
-    padding-bottom: 5px;
-    /* Add padding to adjust vertical alignment */
+    padding-bottom: 15px;
+    /* Adjust padding for vertical alignment */
     display: flex;
     align-items: center;
 }
@@ -115,13 +115,27 @@ button:focus {
 }
 
 /* Style improvements */
-.container {
+.form-section {
     margin-top: 50px;
+    width: 60%;
     max-width: 600px;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    /* Distance between sections */
+}
+
+.explanation-section {
+    width: 80%;
+    /* max-width: 1000px; */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    /* Distance between sections */
 }
 
 form input[type="text"] {
