@@ -74,9 +74,10 @@ form input[type="text"] {
 
 form span {
     margin: 0 10px;
+    padding-bottom: 5px;
+    /* Add padding to adjust vertical alignment */
     display: flex;
     align-items: center;
-    /* Center align text vertically */
 }
 
 button {
@@ -98,16 +99,13 @@ button {
 }
 
 button:hover {
-    /* background: linear-gradient(to right, #F0EAE5, #F0EAE5); */
     transform: scale(1.1);
-    /* Reverse gradient on hover */
+    /* Scale on hover */
 }
 
 button:focus {
     outline: none;
     /* Remove focus outline */
-    /* box-shadow: 0 0 0 0px rgba(38, 143, 255, 0.5); */
-    /* Custom focus outline */
 }
 
 /* Center text vertically next to buttons */
