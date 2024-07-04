@@ -1,7 +1,15 @@
 body {
-    background-color: #FCFCF9;
+    background-color: #fcfcf9;
     font-family: 'Roboto', sans-serif;
     padding-top: 50px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .search-container {
@@ -75,7 +83,6 @@ form input[type="text"] {
 form span {
     margin: 0 10px;
     padding-bottom: 15px;
-    /* Adjust padding for vertical alignment */
     display: flex;
     align-items: center;
 }
@@ -83,38 +90,27 @@ form span {
 button {
     margin: 0 0px;
     border-radius: 50px;
-    /* Rounded edges */
     padding: 10px 20px;
-    /* Padding for pill-like shape */
     background: linear-gradient(to right, #eae1d7, #eae1d7);
-    /* Muted gradient background */
     border: none;
-    /* Remove border */
     color: white;
-    /* Text color */
     font-size: 16px;
-    /* Font size */
     transition: background 0.3s ease;
-    /* Smooth transition */
 }
 
 button:hover {
     transform: scale(1.1);
-    /* Scale on hover */
 }
 
 button:focus {
     outline: none;
-    /* Remove focus outline */
 }
 
-/* Center text vertically next to buttons */
 .d-flex span {
     display: flex;
     align-items: center;
 }
 
-/* Style improvements */
 .form-section {
     margin-top: 50px;
     width: 60%;
@@ -124,35 +120,27 @@ button:focus {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-    /* Distance between sections */
 }
 
 .explanation-section {
     width: 80%;
-    /* max-width: 1000px; */
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-    /* Distance between sections */
 }
 
 form input[type="text"] {
     width: 100%;
-    /* Full width for inputs */
     margin-bottom: 15px;
-    /* Space between inputs */
-    border: 1px solid #ccc;
-    /* Light gray border */
+    /* border: 1px solid #ccc; */
     transition: border-color 0.3s ease;
-    /* Smooth transition */
 }
 
-form input[type="text"]:focus {
-    border-color: #007bff;
-    /* Border color on focus */
-}
+/* form input[type="text"]:focus {
+    border-color: red;
+} */
 
 .explanation {
     margin-top: 30px;
@@ -162,57 +150,56 @@ form input[type="text"]:focus {
 .explanation h2,
 .explanation h3 {
     color: #333;
-    /* Dark text color */
 }
 
 .explanation p {
     line-height: 1.6;
-    /* Better readability */
 }
 
-.fab-container {
+
+.vertical-section {
+    /* Fixes the position of the vertical section relative to the viewport */
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    /* Positions the top of the vertical section at 50% of the viewport height*/
+    top: 50%;
+    /* Positions the vertical section at the right edge of the viewport */
+    right: 0;
+    /* Translates the vertical section up by 50% of its own height to center it vertically */
+    transform: translateY(-50%);
+    /* Uses flexbox layout to align items within the vertical section */
+    display: flex;
+    /* Arranges the flex items in a column direction */
+    flex-direction: column;
+    /* Centers the flex items horizontally */
+    align-items: center;
+    /* Sets a high stacking order to ensure the vertical section appears above other elements */
     z-index: 1000;
 }
 
-.fab-button {
-    width: 56px;
-    height: 56px;
-    background-color: #f44336;
-    border-radius: 50%;
+
+.social-icon {
+    /* Sets the width of the social icon to 40 pixels */
+    width: 100px;
+    /* Sets the height of the social icon to 40 pixels */
+    height: 60px;
+    /* Makes the social icon circular by setting the border radius to 50% */
+    /* border-radius: 50%; */
+    /* Sets the background color of the social icon to a dark gray (#333) */
+    /* background-color: black; */
+    /* Sets the text color inside the social icon to white */
+    /* color: white; */
+    /* Uses flexbox layout to align items within the social icon */
     display: flex;
+    /* Centers the content horizontally within the social icon */
     justify-content: center;
+    /* Centers the content vertically within the social icon */
     align-items: center;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 10.5s ease;
-    /* Adjusted duration */
+    /* Adds a 10-pixel margin above and below the social icon */
+    margin: 1px 0;
+    /* Adds a smooth transition effect for transformations over 0.3 seconds */
+    transition: transform 0.3s ease;
 }
 
-.fab-options {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    bottom: 70px;
-    right: 10px;
-    transition: all 10.5s ease;
-    /* Adjusted duration */
-}
-
-.fab-option {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 10.5s ease;
-    /* Adjusted duration */
+.social-icon:hover {
+    transform: scale(1.5);
 }
