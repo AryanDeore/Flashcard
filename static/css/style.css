@@ -188,7 +188,8 @@ form input[type="text"]:focus {
     color: white;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    transition: all 10.5s ease;
+    /* Adjusted duration */
 }
 
 .fab-options {
@@ -198,6 +199,8 @@ form input[type="text"]:focus {
     position: absolute;
     bottom: 70px;
     right: 10px;
+    transition: all 10.5s ease;
+    /* Adjusted duration */
 }
 
 .fab-option {
@@ -210,9 +213,6 @@ form input[type="text"]:focus {
     color: white;
     margin-bottom: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.fab-container:hover .fab-options {
-    display: flex;
+    transition: all 10.5s ease;
+    /* Adjusted duration */
 }
