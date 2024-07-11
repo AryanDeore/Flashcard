@@ -59,5 +59,5 @@ def index():
             return f"An error occurred: {e}", 500
     return render_template('index.html', explanation=explanation)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5005)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5005)
