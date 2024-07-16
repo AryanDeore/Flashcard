@@ -58,3 +58,8 @@ def index():
             app.logger.error(f"Error: {e}")
             return f"An error occurred: {e}", 500
     return render_template('index.html', explanation=explanation)
+
+if __name__ == "__main__":
+    # This will allow the app to run locally and in both Cloud Run and Kubernetes
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
