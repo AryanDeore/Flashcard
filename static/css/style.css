@@ -203,3 +203,15 @@ form input[type="text"] {
 .social-icon:hover {
     transform: scale(1.5);
 }
+
+@media (max-width: 768px) {
+    .form-section .d-flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-section .btn {
+        margin: 5px 0;
+        width: 100%;
+    }
+}
