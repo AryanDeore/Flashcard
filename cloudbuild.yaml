@@ -1,3 +1,6 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
 steps:
 # Build the container image
 # docker build -t us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA -f Dockerfile.cloudrun .
