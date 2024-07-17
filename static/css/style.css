@@ -204,7 +204,7 @@ form input[type="text"] {
     transform: scale(1.5);
 }
 
-/* Makes website responsive. */
+/* Makes website responsive.. */
 @media (max-width: 768px) {
     .form-section .d-flex {
         flex-direction: column;
