@@ -1,0 +1,36 @@
+steps:
+# Build the container image
+# docker build -t us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA -f Dockerfile.cloudrun .
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA', '-f', 'dockerfile.cloudrun', '.']
+
+# Push the container image to Artifact Registry
+# docker push us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA']
+
+# Deploy container image to Cloud Run
+#  gcloud run deploy flashcard-app \
+#   --image us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA \
+#   --region us-east1 \
+#   --platform managed \
+#   --allow-unauthenticated \
+#   --set-secrets PERPLEXITY_API_KEY=perplexity-api-key:latest
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - 'flashcard-app'
+  - '--image'
+  - 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA'
+  - '--region'
+  - 'us-east1'
+  - '--platform'
+  - 'managed'
+  - '--allow-unauthenticated'
+  - '--set-secrets'
+  - 'PERPLEXITY_API_KEY=perplexity-api-key:latest'
+
+images:
+- 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA'
