@@ -6,6 +6,7 @@ steps:
 # docker build -t us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA -f Dockerfile.cloudrun .
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA', '-f', 'dockerfile.cloudrun', '.']
+  id: 'Build Flask App Container'
 
 # Push the container image to Artifact Registry
 # docker push us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA
