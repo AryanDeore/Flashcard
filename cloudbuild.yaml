@@ -12,6 +12,7 @@ steps:
 # docker push us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA']
+  id: 'Push to artifact Registery'
 
 # Deploy container image to Cloud Run
 #  gcloud run deploy flashcard-app \
@@ -35,6 +36,7 @@ steps:
   - '--allow-unauthenticated'
   - '--set-secrets'
   - 'PERPLEXITY_API_KEY=perplexity-api-key:latest'
+  id: 'Deploy to Cloud Run'
 
 images:
 - 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA'
