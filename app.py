@@ -50,11 +50,11 @@ def index():
         except Exception as e:
             app.logger.error(f"Error: {e}")
             return f"An error occurred: {e}", 500
-    return render_template('index.html', explanation=explanation, topic=topic, domain=domain, hide_spinner=True)
+    return render_template('index.html', explanation=explanation, topic=topic, domain=domain)
 
 @app.route('/refresh', methods=['GET'])
 def refresh():
-    return render_template('index.html', explanation="", topic="", domain="", hide_spinner=True)
+    return render_template('index.html', explanation="", topic="", domain="")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
