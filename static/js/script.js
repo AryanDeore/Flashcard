@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         spinner.style.visibility = 'visible';
     });
 
-    // Hide spinner when page is fully loaded
+    // Hide spinner when page is fully loaded.
     window.addEventListener('load', function () {
         spinner.style.visibility = 'hidden';
     });
