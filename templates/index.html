@@ -22,10 +22,10 @@
                 <form id="explain-form" method="POST" class="d-flex justify-content-center align-items-center mb-3">
                     <span class="mx-2">Explain</span>
                     <input type="text" class="form-control custom-input mx-2" name="topic" placeholder="Photosynthesis"
-                        required>
+                        value="{{ request.form.topic if request.form.topic else '' }}" required>
                     <span class="mx-2">from</span>
                     <input type="text" class="form-control custom-input mx-2" name="domain" placeholder="Biology"
-                        required>
+                        value="{{ request.form.domain if request.form.domain else '' }}" required>
                 </form>
                 <div class="d-flex justify-content-center align-items-center mb-4">
                     <span class="mx-2">Like a:</span>

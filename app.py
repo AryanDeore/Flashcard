@@ -2,15 +2,13 @@ from flask import Flask, request, render_template, url_for
 import os
 from dotenv import load_dotenv
 import requests
-import markdown  # Import the markdown library
-from prompts import get_prompt  # Import the get_prompt function
+import markdown
+from prompts import get_prompt
 
-# Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
 
-# Get the API key from environment variables
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
 
 def generate_explanation(topic, domain, level):
@@ -18,17 +16,10 @@ def generate_explanation(topic, domain, level):
     payload = {
         "model": "llama-3-sonar-small-32k-chat",
         "messages": [
-            {
-                "role": "system",
-                "content": "Be precise and concise."
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
+            {"role": "system", "content": "Be precise and concise."},
+            {"role": "user", "content": prompt}
         ]
     }
-
     try:
         response = requests.post(
             "https://api.perplexity.ai/chat/completions",
@@ -50,7 +41,7 @@ def index():
             domain = request.form['domain']
             level = request.form['level']
             explanation_markdown = generate_explanation(topic, domain, level)
-            explanation = markdown.markdown(explanation_markdown)  # Convert markdown to HTML
+            explanation = markdown.markdown(explanation_markdown)
         except KeyError as e:
             app.logger.error(f"Missing form field: {e}")
             return f"Missing form field: {e}", 400
@@ -60,6 +51,5 @@ def index():
     return render_template('index.html', explanation=explanation)
 
 if __name__ == "__main__":
-    # This will allow the app to run locally and in both Cloud Run and Kubernetes
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port, debug=False)
