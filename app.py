@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, redirect
 import os
 from dotenv import load_dotenv
 import requests
@@ -35,6 +35,8 @@ def generate_explanation(topic, domain, level):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     explanation = ""
+    topic = ""
+    domain = ""
     if request.method == 'POST':
         try:
             topic = request.form['topic']
@@ -48,7 +50,11 @@ def index():
         except Exception as e:
             app.logger.error(f"Error: {e}")
             return f"An error occurred: {e}", 500
-    return render_template('index.html', explanation=explanation)
+    return render_template('index.html', explanation=explanation, topic=topic, domain=domain)
+
+@app.route('/refresh', methods=['GET'])
+def refresh():
+    return render_template('index.html', explanation="", topic="", domain="")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))

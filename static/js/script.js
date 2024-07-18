@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (performance.navigation.type === 1) {
         // Page was reloaded
-        document.querySelector("input[name='topic']").value = '';
-        document.querySelector("input[name='domain']").value = '';
-        document.getElementById('explanation-output').innerHTML = '';
+        window.location.href = '/refresh';
     }
 });

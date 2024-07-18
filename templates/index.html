@@ -22,10 +22,10 @@
                 <form id="explain-form" method="POST" class="d-flex justify-content-center align-items-center mb-3">
                     <span class="mx-2">Explain</span>
                     <input type="text" class="form-control custom-input mx-2" name="topic" placeholder="Photosynthesis"
-                        value="{{ request.form.topic if request.form.topic else '' }}" required>
+                        value="{{ topic }}" required>
                     <span class="mx-2">from</span>
                     <input type="text" class="form-control custom-input mx-2" name="domain" placeholder="Biology"
-                        value="{{ request.form.domain if request.form.domain else '' }}" required>
+                        value="{{ domain }}" required>
                 </form>
                 <div class="d-flex justify-content-center align-items-center mb-4">
                     <span class="mx-2">Like a:</span>
@@ -39,7 +39,7 @@
             </div>
         </div>
         {% if explanation %}
-        <div class="row justify-content-center">
+        <div id="explanation-section" class="row justify-content-center wrapper-explanation-section">
             <div class="col-md-10 explanation-section">
                 <div id="explanation-output" class="explanation mt-4">{{ explanation|safe }}</div>
             </div>
