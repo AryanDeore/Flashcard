@@ -48,6 +48,13 @@
             </div>
         </div>
         {% endif %}
+        {% if image_url %}
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <img src="{{ image_url }}" alt="Generated image" class="img-fluid">
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="vertical-section">
         <a href="https://github.com/Aryan120798/Flashcard" target="_blank" class="social-icon">
@@ -56,10 +63,13 @@
         <a href="https://www.linkedin.com/in/aryandeore/" target="_blank" class="social-icon">
             <i class="fab fa-linkedin fa-2xl" style="color: #1e3050;"></i>
         </a>
-        <a href="https://www.linkedin.com/in/aryandeore/" target=" _blank" class="social-icon">
+        <a href="https://www.linkedin.com/in/aryandeore/" target="_blank" class="social-icon">
             <i class="fas fa-globe fa-2xl" style="color: #1e3050;"></i>
         </a>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" cross
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
