@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import os
 from dotenv import load_dotenv
 import requests
@@ -56,31 +56,32 @@ def generate_image(topic, domain, level):
         app.logger.error(f"Error generating image: {str(e)}")
         return None
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    explanation = ""
-    topic = ""
-    domain = ""
-    image_url = None
-    if request.method == 'POST':
-        try:
-            topic = request.form['topic']
-            domain = request.form['domain']
-            level = request.form['level']
-            explanation_markdown = generate_explanation(topic, domain, level)
-            explanation = markdown.markdown(explanation_markdown)
-            image_url = generate_image(topic, domain, level)
-        except KeyError as e:
-            app.logger.error(f"Missing form field: {e}")
-            return f"Missing form field: {e}", 400
-        except Exception as e:
-            app.logger.error(f"Error: {e}")
-            return f"An error occurred: {e}", 500
-    return render_template('index.html', explanation=explanation, topic=topic, domain=domain, image_url=image_url)
+    return render_template('index.html')
+
+@app.route('/generate_explanation', methods=['POST'])
+def generate_explanation_route():
+    data = request.json
+    topic = data.get('topic')
+    domain = data.get('domain')
+    level = data.get('level')
+    explanation_markdown = generate_explanation(topic, domain, level)
+    explanation = markdown.markdown(explanation_markdown)
+    return jsonify({'explanation': explanation})
+
+@app.route('/generate_image', methods=['POST'])
+def generate_image_route():
+    data = request.json
+    topic = data.get('topic')
+    domain = data.get('domain')
+    level = data.get('level')
+    image_url = generate_image(topic, domain, level)
+    return jsonify({'image_url': image_url})
 
 @app.route('/refresh', methods=['GET'])
 def refresh():
-    return render_template('index.html', explanation="", topic="", domain="", image_url=None)
+    return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))

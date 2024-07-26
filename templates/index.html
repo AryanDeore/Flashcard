@@ -22,13 +22,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 form-section text-center">
-                <form id="explain-form" method="POST" class="d-flex justify-content-center align-items-center mb-3">
+                <form id="explain-form" class="d-flex justify-content-center align-items-center mb-3">
                     <span class="mx-2">Explain</span>
                     <input type="text" class="form-control custom-input mx-2" name="topic" placeholder="Photosynthesis"
-                        value="{{ topic }}" required>
+                        required>
                     <span class="mx-2">from</span>
                     <input type="text" class="form-control custom-input mx-2" name="domain" placeholder="Biology"
-                        value="{{ domain }}" required>
+                        required>
                 </form>
                 <div class="d-flex justify-content-center align-items-center mb-4">
                     <span class="mx-2">Like a:</span>
@@ -41,20 +41,16 @@
                 </div>
             </div>
         </div>
-        {% if explanation %}
-        <div id="explanation-section" class="row justify-content-center wrapper-explanation-section">
-            <div class="col-md-10 explanation-section">
-                <div id="explanation-output" class="explanation mt-4">{{ explanation|safe }}</div>
+        <div class="content-wrapper">
+            <div id="explanation-section" style="display: none;">
+                <div class="explanation-section">
+                    <div id="explanation-output" class="explanation mt-4"></div>
+                </div>
+            </div>
+            <div id="image-section" class="mt-4" style="display: none;">
+                <img id="generated-image" src="" alt="Generated image" class="img-fluid">
             </div>
         </div>
-        {% endif %}
-        {% if image_url %}
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-10">
-                <img src="{{ image_url }}" alt="Generated image" class="img-fluid">
-            </div>
-        </div>
-        {% endif %}
     </div>
     <div class="vertical-section">
         <a href="https://github.com/Aryan120798/Flashcard" target="_blank" class="social-icon">
