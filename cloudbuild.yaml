@@ -20,7 +20,7 @@ steps:
 #   --region us-east1 \
 #   --platform managed \
 #   --allow-unauthenticated \
-#   --set-secrets PERPLEXITY_API_KEY=perplexity-api-key:latest
+#   --set-secrets PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
@@ -35,7 +35,7 @@ steps:
   - 'managed'
   - '--allow-unauthenticated'
   - '--set-secrets'
-  - 'PERPLEXITY_API_KEY=perplexity-api-key:latest'
+  - 'PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest'
   id: 'Deploy to Cloud Run'
 
 images:
