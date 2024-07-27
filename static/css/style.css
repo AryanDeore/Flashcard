@@ -1,6 +1,5 @@
 body {
-    /* background-color: #fcfcf9; */
-    background-color: #ccedce;
+    background-color: #fcfcf9;
     font-family: 'Roboto', sans-serif;
     padding-top: 50px;
 }
@@ -123,15 +122,6 @@ button:focus {
     margin-bottom: 10px;
 }
 
-.explanation-section {
-    width: 80%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
 form input[type="text"] {
     width: 100%;
     margin-bottom: 15px;
@@ -221,4 +211,66 @@ form input[type="text"] {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* New styles for centering and responsiveness */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#explanation-section,
+#image-section {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.explanation-section {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#generated-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+
+    #explanation-section,
+    #image-section {
+        width: 95%;
+    }
+}
+
+#image-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#image-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#image-loading p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
 }

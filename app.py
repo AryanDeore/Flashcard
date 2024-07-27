@@ -1,15 +1,19 @@
-from flask import Flask, request, render_template, url_for, redirect
+from flask import Flask, request, render_template, jsonify
 import os
 from dotenv import load_dotenv
 import requests
 import markdown
-from prompts import get_prompt
+from prompts import get_prompt, get_image_prompt
+from openai import OpenAI
 
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
 
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
+openai_api_key = os.getenv('OPENAI_API_KEY')
+
+os.environ["OPENAI_API_KEY"] = openai_api_key
 
 def generate_explanation(topic, domain, level):
     prompt = get_prompt(level, topic, domain)
@@ -32,29 +36,52 @@ def generate_explanation(topic, domain, level):
         app.logger.error(f"RequestException: {e}")
         return f"An error occurred: {e}"
 
-@app.route('/', methods=['GET', 'POST'])
+def generate_image(topic, domain, level):
+    client = OpenAI()
+    
+    image_prompt = get_image_prompt(level, topic, domain)
+
+    try:
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=image_prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+        image_url = response.data[0].url
+        app.logger.info(f"Image generated successfully: {image_url}")
+        return image_url
+    except Exception as e:
+        app.logger.error(f"Error generating image: {str(e)}")
+        return None
+
+@app.route('/')
 def index():
-    explanation = ""
-    topic = ""
-    domain = ""
-    if request.method == 'POST':
-        try:
-            topic = request.form['topic']
-            domain = request.form['domain']
-            level = request.form['level']
-            explanation_markdown = generate_explanation(topic, domain, level)
-            explanation = markdown.markdown(explanation_markdown)
-        except KeyError as e:
-            app.logger.error(f"Missing form field: {e}")
-            return f"Missing form field: {e}", 400
-        except Exception as e:
-            app.logger.error(f"Error: {e}")
-            return f"An error occurred: {e}", 500
-    return render_template('index.html', explanation=explanation, topic=topic, domain=domain)
+    return render_template('index.html')
+
+@app.route('/generate_explanation', methods=['POST'])
+def generate_explanation_route():
+    data = request.json
+    topic = data.get('topic')
+    domain = data.get('domain')
+    level = data.get('level')
+    explanation_markdown = generate_explanation(topic, domain, level)
+    explanation = markdown.markdown(explanation_markdown)
+    return jsonify({'explanation': explanation})
+
+@app.route('/generate_image', methods=['POST'])
+def generate_image_route():
+    data = request.json
+    topic = data.get('topic')
+    domain = data.get('domain')
+    level = data.get('level')
+    image_url = generate_image(topic, domain, level)
+    return jsonify({'image_url': image_url})
 
 @app.route('/refresh', methods=['GET'])
 def refresh():
-    return render_template('index.html', explanation="", topic="", domain="")
+    return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
