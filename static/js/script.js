@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Scroll to the image section
                 setTimeout(() => {
                     imageSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100); // Small delay to ensure the image is fully rendered
+                }, 200); // Small delay to ensure the image is fully rendered
             })
             .catch((error) => {
                 console.error('Error:', error);
