@@ -59,6 +59,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 generatedImage.src = data.image_url;
                 imageLoading.style.display = 'none';
                 imageSection.style.display = 'block';
+
+                // Scroll to the image section
+                setTimeout(() => {
+                    imageSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100); // Small delay to ensure the image is fully rendered
             })
             .catch((error) => {
                 console.error('Error:', error);
