@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinner = document.getElementById('spinner');
     const explanationSection = document.getElementById('explanation-section');
     const explanationOutput = document.getElementById('explanation-output');
+    const imageLoading = document.getElementById('image-loading');
     const imageSection = document.getElementById('image-section');
     const generatedImage = document.getElementById('generated-image');
 
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         spinner.style.visibility = 'visible';
         explanationSection.style.display = 'none';
+        imageLoading.style.display = 'none';
         imageSection.style.display = 'none';
 
         // Generate explanation
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 explanationOutput.innerHTML = data.explanation;
                 explanationSection.style.display = 'block';
                 spinner.style.visibility = 'hidden';
+                imageLoading.style.display = 'flex';
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -54,10 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 generatedImage.src = data.image_url;
+                imageLoading.style.display = 'none';
                 imageSection.style.display = 'block';
             })
             .catch((error) => {
                 console.error('Error:', error);
+                imageLoading.style.display = 'none';
             });
     });
 });
