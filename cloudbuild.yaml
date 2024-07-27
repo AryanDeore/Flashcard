@@ -5,13 +5,13 @@ steps:
 # Build the container image
 # docker build -t us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA -f Dockerfile.cloudrun .
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA', '-f', 'dockerfile.cloudrun', '.']
+  args: ['build', '-t', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA', '-f', 'dockerfile.cloudrun', '.']
   id: 'Build Flask App Container'
 
 # Push the container image to Artifact Registry
 # docker push us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA']
+  args: ['push', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA']
   id: 'Push to artifact Registery'
 
 # Deploy container image to Cloud Run
@@ -26,9 +26,9 @@ steps:
   args:
   - 'run'
   - 'deploy'
-  - 'flashcard-app'
+  - 'flashcard-app-image'
   - '--image'
-  - 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA'
+  - 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA'
   - '--region'
   - 'us-east1'
   - '--platform'
@@ -39,4 +39,4 @@ steps:
   id: 'Deploy to Cloud Run'
 
 images:
-- 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA'
+- 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA'
