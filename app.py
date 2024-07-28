@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import requests
@@ -9,6 +10,7 @@ from openai import OpenAI
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
+CORS(app)
 
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
 openai_api_key = os.getenv('OPENAI_API_KEY')
