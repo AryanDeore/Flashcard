@@ -36,6 +36,11 @@ steps:
   - '--allow-unauthenticated'
   - '--set-secrets'
   - 'PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest'
+  - '--set-env-vars'
+  - 'GOOGLE_CLOUD_ENABLE_CORS=true'
+  - '--cors-allow-origin=*'
+  - '--cors-allow-methods=GET,POST,PUT,DELETE,OPTIONS'
+  - '--cors-allow-headers=Content-Type,Authorization'
   id: 'Deploy to Cloud Run'
 
 images:
