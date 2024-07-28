@@ -10,7 +10,7 @@ from openai import OpenAI
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
 openai_api_key = os.getenv('OPENAI_API_KEY')
