@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const topic = document.querySelector("input[name='topic']").value;
         const domain = document.querySelector("input[name='domain']").value;
-        const level = document.querySelector("button[type='submit']:focus").value;
+
+        // Get the level from the focused button or default to '5 year old' if none is focused
+        const focusedButton = document.querySelector("button[type='submit']:focus");
+        const level = focusedButton ? focusedButton.value : '5 year old';
 
         spinner.style.visibility = 'visible';
         explanationSection.style.display = 'none';
@@ -69,5 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('Error:', error);
                 imageLoading.style.display = 'none';
             });
+    });
+
+    // Add click event listeners to buttons to ensure they get focus
+    const buttons = document.querySelectorAll("button[type='submit']");
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            this.focus();
+        });
     });
 });

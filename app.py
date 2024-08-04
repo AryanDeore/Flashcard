@@ -10,7 +10,13 @@ from openai import OpenAI
 load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-CORS(app, resources={r"/*": {"origins": "*"}})
+
+# Configure CORS
+CORS(app, resources={r"/*": {
+    "origins": "*",
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"]
+}})
 
 perplexity_api_key = os.getenv('PERPLEXITY_API_KEY')
 openai_api_key = os.getenv('OPENAI_API_KEY')
@@ -85,6 +91,32 @@ def generate_image_route():
 def refresh():
     return render_template('index.html')
 
+# Add Content Security Policy
+@app.after_request
+def add_security_headers(response):
+    csp = "default-src 'self'; " \
+          "script-src 'self' https://kit.fontawesome.com https://cdn.jsdelivr.net; " \
+          "style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://ka-f.fontawesome.com 'unsafe-inline'; " \
+          "font-src 'self' https://fonts.gstatic.com https://kit-free.fontawesome.com https://ka-f.fontawesome.com; " \
+          "img-src 'self' data: https:; " \
+          "connect-src 'self' https://api.perplexity.ai https://api.openai.com https://ka-f.fontawesome.com; " \
+          "frame-src 'none';"
+    
+    response.headers['Content-Security-Policy'] = csp
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    
+    return response
+
+# Add CORS headers
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)
