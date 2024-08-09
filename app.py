@@ -3,7 +3,6 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import requests
-import markdown
 from prompts import get_prompt, get_image_prompt
 from openai import OpenAI
 
@@ -75,8 +74,7 @@ def generate_explanation_route():
     domain = data.get('domain')
     level = data.get('level')
     explanation_markdown = generate_explanation(topic, domain, level)
-    explanation = markdown.markdown(explanation_markdown)
-    return jsonify({'explanation': explanation})
+    return jsonify({'explanation': explanation_markdown})
 
 @app.route('/generate_image', methods=['POST'])
 def generate_image_route():
@@ -95,7 +93,7 @@ def refresh():
 @app.after_request
 def add_security_headers(response):
     csp = "default-src 'self'; " \
-          "script-src 'self' https://kit.fontawesome.com https://cdn.jsdelivr.net; " \
+          "script-src 'self' https://kit.fontawesome.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/marked/marked.min.js; " \
           "style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://ka-f.fontawesome.com 'unsafe-inline'; " \
           "font-src 'self' https://fonts.gstatic.com https://kit-free.fontawesome.com https://ka-f.fontawesome.com; " \
           "img-src 'self' data: https:; " \

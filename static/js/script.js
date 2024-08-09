@@ -14,6 +14,28 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = '/refresh';
     }
 
+    function typeText(element, markdown, speed = 100) {
+        const htmlContent = marked.parse(markdown);
+        element.innerHTML = htmlContent;
+
+        const words = element.innerText.split(/\s+/);
+        element.innerHTML = '';
+        let wordIndex = 0;
+
+        function typeWord() {
+            if (wordIndex < words.length) {
+                element.innerHTML += words[wordIndex] + ' ';
+                wordIndex++;
+                setTimeout(typeWord, speed);
+            } else {
+                // Restore the full HTML content with formatting
+                element.innerHTML = htmlContent;
+            }
+        }
+
+        typeWord();
+    }
+
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -39,10 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                explanationOutput.innerHTML = data.explanation;
                 explanationSection.style.display = 'block';
                 spinner.style.visibility = 'hidden';
                 imageLoading.style.display = 'flex';
+                typeText(explanationOutput, data.explanation, 50); // 50ms delay between words
             })
             .catch((error) => {
                 console.error('Error:', error);
