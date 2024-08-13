@@ -13,10 +13,12 @@
             "level": "DEBUG"
         },
         "file": {
-            "class": "logging.FileHandler",
-            "filename": "app.log",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logging/app.log",
             "formatter": "default",
-            "level": "DEBUG"
+            "level": "DEBUG",
+            "maxBytes": 10485760,
+            "backupCount": 5
         }
     },
     "root": {
