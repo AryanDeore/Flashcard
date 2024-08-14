@@ -1,13 +1,30 @@
+import os
+import logging
+import logging.config
+import json
 from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
-import os
 from dotenv import load_dotenv
 import requests
 from prompts import get_prompt, get_image_prompt
 from openai import OpenAI
 
+# Load environment variables
 load_dotenv()
 
+# Ensure the log directory exists
+log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logging')
+os.makedirs(log_dir, exist_ok=True)
+
+# Load logging configuration from JSON file
+config_path = os.path.join(log_dir, 'logging_config.json')
+with open(config_path, 'r') as f:
+    logging_config = json.load(f)
+
+# Apply the logging configuration
+logging.config.dictConfig(logging_config)
+
+# Create the Flask app
 app = Flask(__name__, static_folder='static')
 
 # Configure CORS
@@ -38,7 +55,12 @@ def generate_explanation(topic, domain, level):
             json=payload
         )
         response.raise_for_status()
-        return response.json().get("choices")[0].get("message").get("content")
+        explanation = response.json().get("choices")[0].get("message").get("content")
+        
+        # Log the full explanation
+        app.logger.info(f"Full explanation for {topic}: {explanation}")
+        
+        return explanation
     except requests.exceptions.RequestException as e:
         app.logger.error(f"RequestException: {e}")
         return f"An error occurred: {e}"
@@ -65,6 +87,7 @@ def generate_image(topic, domain, level):
 
 @app.route('/')
 def index():
+    app.logger.info("Accessed home page")
     return render_template('index.html')
 
 @app.route('/generate_explanation', methods=['POST'])
@@ -73,6 +96,7 @@ def generate_explanation_route():
     topic = data.get('topic')
     domain = data.get('domain')
     level = data.get('level')
+    app.logger.info(f"Generating explanation for topic: {topic}, domain: {domain}, level: {level}")
     explanation_markdown = generate_explanation(topic, domain, level)
     return jsonify({'explanation': explanation_markdown})
 
@@ -82,11 +106,13 @@ def generate_image_route():
     topic = data.get('topic')
     domain = data.get('domain')
     level = data.get('level')
+    app.logger.info(f"Generating image for topic: {topic}, domain: {domain}, level: {level}")
     image_url = generate_image(topic, domain, level)
     return jsonify({'image_url': image_url})
 
 @app.route('/refresh', methods=['GET'])
 def refresh():
+    app.logger.info("Refreshing page")
     return render_template('index.html')
 
 # Add Content Security Policy
@@ -117,4 +143,4 @@ def add_cors_headers(response):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=False)
