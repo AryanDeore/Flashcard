@@ -9,7 +9,8 @@ from google.cloud import storage
 # Only import and initialize GCS client if not in local development
 if os.getenv('FLASK_ENV') != 'development':
     storage_client = storage.Client()
-    GCS_BUCKET_NAME = 'your-gcs-bucket-name'
+    GCS_BUCKET_NAME = os.getenv('GCS_BUCKET_NAME', 'flashcard-logs-429516')
+    GCS_LOG_PATH = os.getenv('GCS_LOG_PATH', 'flashcard/logging/')
 
 def log_stderr(severity, message, **kwargs):
     log_entry = {
@@ -31,7 +32,7 @@ def log_gcs(severity, message, **kwargs):
         **kwargs
     }
     
-    filename = f"logs/{datetime.utcnow().strftime('%Y/%m/%d/%H/%M%S_%f')}.json"
+    filename = f"{GCS_LOG_PATH}{datetime.utcnow().strftime('%Y/%m/%d/%H/%M%S_%f')}.json"
     
     bucket = storage_client.bucket(GCS_BUCKET_NAME)
     blob = bucket.blob(filename)

@@ -2,25 +2,34 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
+# Check if the GCS bucket exists, create it if it doesn't, and set up the logging path
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    if ! gsutil ls -b gs://flashcard-logs-429516 > /dev/null 2>&1; then
+      echo "Bucket does not exist. Creating..."
+      gsutil mb -l us-east1 gs://flashcard-logs-429516
+    else
+      echo "Bucket already exists."
+    fi
+    echo "Setting up logging path..."
+    gsutil ls gs://flashcard-logs-429516/flashcard/logging/ > /dev/null 2>&1 || gsutil mb gs://flashcard-logs-429516/flashcard/logging/
+    echo "Logging path set up complete."
+  id: 'Create GCS Bucket and Set Up Logging Path'
+
 # Build the container image
-# docker build -t us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA -f Dockerfile.cloudrun .
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA', '-f', 'dockerfile.cloudrun', '.']
   id: 'Build Flask App Container'
 
 # Push the container image to Artifact Registry
-# docker push us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun-image:$COMMIT_SHA']
   id: 'Push to artifact Registery'
 
 # Deploy container image to Cloud Run
-#  gcloud run deploy flashcard-app \
-#   --image us-east1-docker.pkg.dev/flashcard-429516/flashcard/flashcard-cloudrun:$COMMIT_SHA \
-#   --region us-east1 \
-#   --platform managed \
-#   --allow-unauthenticated \
-#   --set-secrets PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
@@ -36,6 +45,8 @@ steps:
   - '--allow-unauthenticated'
   - '--set-secrets'
   - 'PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest'
+  - '--set-env-vars'
+  - 'GCS_BUCKET_NAME=flashcard-logs-429516,GCS_LOG_PATH=flashcard/logging/'
   id: 'Deploy to Cloud Run'
 
 images:
