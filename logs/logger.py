@@ -10,7 +10,7 @@ from google.cloud import storage
 if os.getenv('FLASK_ENV') != 'development':
     storage_client = storage.Client()
     GCS_BUCKET_NAME = os.getenv('GCS_BUCKET_NAME', 'flashcard-logs-429516')
-    GCS_LOG_PATH = os.getenv('GCS_LOG_PATH', 'flashcard/logging/')
+    GCS_LOG_FILE = 'flashcard/logging/app_logs.json'
 
 def log_stderr(severity, message, **kwargs):
     log_entry = {
@@ -32,11 +32,19 @@ def log_gcs(severity, message, **kwargs):
         **kwargs
     }
     
-    filename = f"{GCS_LOG_PATH}{datetime.utcnow().strftime('%Y/%m/%d/%H/%M%S_%f')}.json"
-    
     bucket = storage_client.bucket(GCS_BUCKET_NAME)
-    blob = bucket.blob(filename)
-    blob.upload_from_string(json.dumps(log_entry))
+    blob = bucket.blob(GCS_LOG_FILE)
+
+    # Download existing content
+    existing_content = ''
+    if blob.exists():
+        existing_content = blob.download_as_text()
+
+    # Append new log entry
+    updated_content = existing_content + json.dumps(log_entry) + '\n'
+
+    # Upload updated content
+    blob.upload_from_string(updated_content)
 
 def log(severity, message, **kwargs):
     log_stderr(severity, message, **kwargs)

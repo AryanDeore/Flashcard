@@ -46,7 +46,7 @@ steps:
   - '--set-secrets'
   - 'PERPLEXITY_API_KEY=perplexity-api-key:latest,OPENAI_API_KEY=openai-api-key:latest'
   - '--set-env-vars'
-  - 'GCS_BUCKET_NAME=flashcard-logs-429516,GCS_LOG_PATH=flashcard/logging/'
+  - 'GCS_BUCKET_NAME=flashcard-logs-429516'
   id: 'Deploy to Cloud Run'
 
 images:
