@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import requests
 from openai import OpenAI
-from logs.logger import log  # Assuming you've created this file as discussed earlier
+from logs.logger import log
 
 # Load environment variables
 load_dotenv()
@@ -40,7 +40,7 @@ def get_image_prompt(level, topic, domain):
 def generate_explanation(topic, domain, level):
     prompt = get_prompt(level, topic, domain)
     payload = {
-        "model": "llama-3-sonar-small-32k-chat",
+        "model": "llama-3.1-sonar-small-128k-chat",
         "messages": [
             {"role": "system", "content": "Be precise and concise."},
             {"role": "user", "content": prompt}
