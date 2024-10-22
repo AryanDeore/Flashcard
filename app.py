@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import requests
 from openai import OpenAI
-from logs.logger import log  # Assuming you've created this file as discussed earlier
+from logs.logger import log
 
 # Load environment variables
 load_dotenv()
